@@ -22,12 +22,9 @@ inference output in realtime on the screen.
 
 ## Object detection
 
-This app performs object detection on a live camera feed and displays the
-results in realtime on the screen. The app displays the confidence scores,
-classes and detected bounding boxes for multiple objects. A detected object is
-only displayed if the confidence score is greater than a defined threshold.
+这个应用程序在一个实时摄像头上执行对象检测，并在屏幕上实时显示结果。该应用程序显示多个对象的信心分数、类和检测到的边界框。只有当置信度分数大于定义的阈值时，才显示检测到的对象。
 
-<!-- TODO(b/124116863): Add app screenshot and model details. -->
+<!-- TODO(b/124116863): 添加应用程序截图和模型细节 -->
 
 ### Samples
 

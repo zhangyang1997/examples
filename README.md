@@ -4,31 +4,31 @@
   <img src="https://www.tensorflow.org/images/tf_logo_social.png" /><br /><br />
 </div>
 
-<h2>Most important links!</h2>
+<h2>最重要的链接!</h2>
 
-* [Community examples](./community)
-* [Course materials](./courses/udacity_deep_learning) for the [Deep Learning](https://www.udacity.com/course/deep-learning--ud730) class on Udacity
+* [社区的例子](./community)
+* [课程资料](./courses/udacity_deep_learning) [Udacity深度学习课程](https://www.udacity.com/course/deep-learning--ud730)
 
-If you are looking to learn TensorFlow, don't miss the
+如果你想学习tensorflow，千万不要错过
 [core TensorFlow documentation](http://github.com/tensorflow/docs)
-which is largely runnable code.
-Those notebooks can be opened in Colab from
+大部分是可运行的代码。
+那些notebooks可以用colab打开
 [tensorflow.org](https://tensorflow.org).
 
 <h2>What is this repo?</h2>
 
-This is the TensorFlow example repo.  It has several classes of material:
+这是TensorFlow示例repo。它有几类材料:
 
-* Showcase examples and documentation for our fantastic [TensorFlow Community](https://tensorflow.org/community)
-* Provide examples mentioned on TensorFlow.org
-* Publish material supporting official TensorFlow courses
-* Publish supporting material for the [TensorFlow Blog](https://blog.tensorflow.org) and [TensorFlow YouTube Channel](https://youtube.com/tensorflow)
+* 为我们出色的[TensorFlow社区](https://tensorflow.org/community)展示示例和文档
+* 提供TensorFlow.org上提到的例子
+* 出版支持官方TensorFlow课程的材料
+* 为[TensorFlow博客](https://blog.tensorflow.org)发布支持材料以及[TensorFlow YouTube 频道](https://youtube.com/tensorflow)
 
-We welcome community contributions, see [CONTRIBUTING.md](CONTRIBUTING.md) and, for style help,
-[Writing TensorFlow documentation](https://www.tensorflow.org/community/documentation)
-guide.
+我们欢迎社区的贡献，见[CONTRIBUTING.md](CONTRIBUTING.md) 
+对于样式帮助指南，[TensorFlow文档](https://www.tensorflow.org/community/documentation)
 
-To file an issue, use the tracker in the
+
+要提交问题，请使用目录中的跟踪器
 [tensorflow/tensorflow](https://github.com/tensorflow/tensorflow/issues/new?template=20-documentation-issue.md) repo.
 
 ## License

@@ -1,66 +1,47 @@
-# TensorFlow Lite Python object detection example with Pi Camera
+# TensorFlow Lite Python对象检测示例与Pi相机
 
-This example uses [TensorFlow Lite](https://tensorflow.org/lite) with Python
-on a Raspberry Pi to perform real-time object detection using images
-streamed from the Pi Camera. It draws a bounding box around each detected
-object in the camera preview (when the object score is above a given threshold).
+这个例子使用[TensorFlow Lite](https://tensorflow.org/lite)和Python在一个Raspberry Pi上执行实时对象检测，使用的图像流从Pi相机。它在摄像机预览中为每个检测到的对象绘制一个边界框(当对象的分数超过给定的阈值)。
 
-Although the TensorFlow model and nearly all the code in here can work with
-other hardware, the code uses the [`picamera`](
-https://picamera.readthedocs.io/en/latest/) API to capture images from the Pi
-Camera. So you can modify those parts of the code if you want to use a different
-camera input.
+虽然这里的TensorFlow模型和几乎所有代码都可以与其他硬件一起工作，但代码使用[' picamera '](https://picamera.readthedocs.io/en/latest/) API从Pi相机捕捉图像。如果你想使用不同的摄像头输入，你可以修改代码的这些部分。
 
-At the end of this page, there are extra steps to accelerate the example using
-the Coral USB Accelerator, which increases the inference speed by ~10x.
+在本页的末尾，有一些额外的步骤来使用Coral USB加速器加速示例，它将推理速度提高了约10倍。
 
+## 设置硬件
 
-## Set up your hardware
+在你开始之前，你需要[设置Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-settup)
 
-Before you begin, you need to [set up your Raspberry Pi](
-https://projects.raspberrypi.org/en/projects/raspberry-pi-setting-up) with
-Raspbian (preferably updated to Buster).
+您还需要[连接并配置Pi摄像头](https://www.raspberrypi.org/documentation/configuration/camera.md)。
 
-You also need to [connect and configure the Pi Camera](
-https://www.raspberrypi.org/documentation/configuration/camera.md).
-
-And to see the results from the camera, you need a monitor connected
-to the Raspberry Pi. It's okay if you're using SSH to access the Pi shell
-(you don't need to use a keyboard connected to the Pi)—you only need a monitor
-attached to the Pi to see the camera stream.
+要想看到相机拍摄的结果，你需要一个连接树莓派的监视器。如果您正在使用SSH访问Pi shell(您不需要使用连接到Pi的键盘)，这是可以的——您只需要一个监视器连接到Pi就可以看到相机流。
 
 
-## Install the TensorFlow Lite runtime
+## 安装TensorFlow Lite运行时
 
-In this project, all you need from the TensorFlow Lite API is the `Interpreter`
-class. So instead of installing the large `tensorflow` package, we're using the
-much smaller `tflite_runtime` package.
+在这个项目中，你所需要的TensorFlow Lite API就是`Interpreter`类。
+所以我们没有安装大的`tensorflow`包，而是使用小得多的`tflite_runtime` 包。
 
-To install this on your Raspberry Pi, follow the instructions in the
-[Python quickstart](https://www.tensorflow.org/lite/guide/python).
-Return here after you perform the `pip install` command.
+要在Raspberry Pi上安装该文件，请按照[Python quickstart](https://www.tensorflow.org/lite/guide/python)中的说明操作。执行`pip install`命令后返回这里。
 
 
-## Download the example files
+## 下载示例文件
 
-First, clone this Git repo onto your Raspberry Pi like this:
+首先，复制这个Git repo到你的树莓派，就像这样:
 
 ```
 git clone https://github.com/tensorflow/examples --depth 1
 ```
 
-Then use our script to install a couple Python packages, and
-download the MobileNet model and labels file:
+然后使用我们的脚本安装一对Python包，并下载MobileNet模型和标签文件:
 
 ```
 cd examples/lite/examples/object_detection/raspberry_pi
 
-# The script takes an argument specifying where you want to save the model files
+# 该脚本接受一个参数，指定您希望将模型文件保存在何处
 bash download.sh /tmp
 ```
 
 
-## Run the example
+## 运行示例
 
 ```
 python3 detect_picamera.py \
@@ -68,68 +49,51 @@ python3 detect_picamera.py \
   --labels /tmp/coco_labels.txt
 ```
 
-You should see the camera feed appear on the monitor attached to your Raspberry
-Pi. Put some objects in front of the camera, like a coffee mug or keyboard, and
-you'll see boxes drawn around those that the model recognizes, including the
-label and score for each. It also prints the amount of time it took
-to perform each inference in milliseconds at the top-left corner of the screen.
+你应该会看到摄像头的信号出现在显示器上，连接到你的树莓派。在相机前放置一些物体，比如一个咖啡杯或键盘，你会看到在模型识别的物体周围画上方框，包括标签和每个物体的分数。它还在屏幕左上角以毫秒为单位打印执行每个推断所花费的时间。
 
-For more information about executing inferences with TensorFlow Lite, read
-[TensorFlow Lite inference](https://www.tensorflow.org/lite/guide/inference).
+有关使用TensorFlow Lite执行推断的更多信息，请阅读[TensorFlow Lite推断](https://www.tensorflow.org/lite/guide/inference)。
 
 
-## Speed up the inferencing time (optional)
+## 加速推理时间(可选)
 
-If you want to significantly speed up the inference time, you can attach an
-ML accelerator such as the [Coral USB Accelerator](
-https://coral.withgoogle.com/products/accelerator)—a USB accessory that adds
-the [Edge TPU ML accelerator](https://coral.withgoogle.com/docs/edgetpu/faq/)
-to any Linux-based system.
+如果你想显著加快推理的时间,您可以附加一个毫升加速器等[coral USB 加速器](https://coral.withgoogle.com/products/accelerator)——USB附件,添加[边缘TPU ML加速器](https://coral.withgoogle.com/docs/edgetpu/faq/)到任何基于linux的系统。
 
-If you have a Coral USB Accelerator, follow these additional steps to
-delegate model execution to the Edge TPU processor:
+如果你有一个coral USB加速器，遵循这些额外的步骤，委托模型执行的边缘TPU处理器:
 
-1.  First, be sure you have completed the [USB Accelerator setup instructions](
-    https://coral.withgoogle.com/docs/accelerator/get-started/).
 
-2.  Now open the `detect_picamera.py` file and add the following import at
-    the top:
+1.  首先，确保你已经完成了[USB加速器设置说明](https://coral.withgoogle.com/docs/accelerator/get-started/)。
+
+2.  现在打开`detect_picamera.py`文件，并在顶部添加以下导入:
 
     ```
     from tflite_runtime.interpreter import load_delegate
     ```
 
-    And then find the line that initializes the `Interpreter`, which looks like
-    this:
+    然后找到初始化`Interpreter`的那一行，它看起来像这样:
 
     ```
     interpreter = Interpreter(args.model)
     ```
 
-    And change it to specify the Edge TPU delegate:
+    更改为指定边缘TPU委托:
 
     ```
     interpreter = Interpreter(args.model,
         experimental_delegates=[load_delegate('libedgetpu.so.1.0')])
     ```
 
-    The `libedgetpu.so.1.0` file is provided by the Edge TPU library you
-    installed during the USB Accelerator setup in step 1.
+    `libedgetpu.so.1.0`文件是由你在步骤1中安装USB加速器时安装的Edge TPU库提供的。
 
-3.  Finally, you need a version of the model that's compiled for the Edge TPU.
+3.  最后，您需要一个为Edge TPU编译的模型版本。
 
-    Normally, you need to use use the [Edge TPU Compiler](
-    https://coral.withgoogle.com/docs/edgetpu/compiler/) to compile your
-    `.tflite` file. But the compiler tool isn't compatible with Raspberry
-    Pi, so we included a pre-compiled version of the model in the `download.sh`
-    script above.
+    通常，你需要使用[Edge TPU编译器](https://coral.withgoogle.com/docs/edgetpu/compiler/)来编译你的`.tflite`文件。但是编译器工具与树莓派不兼容，所以我们在“下载”中包含了一个预编译版本的模型`download.sh`。
 
-    So you already have the compiled model you need:
+    所以你已经有了你需要的编译模型:
     `mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite`.
 
-Now you're ready to execute the TensorFlow Lite model on the Edge TPU. Just run
-`detect_picamera.py` again, but be sure you specify the model that's compiled
-for the Edge TPU (it uses the same labels file as before):
+现在您已经准备好在边缘TPU上执行TensorFlow Lite模型了。
+只是`detect_picamera.py`，但请确保您指定了为Edge TPU编译的模型(它使用相同的标签文件和以前一样):
+
 
 ```
 python3 detect_picamera.py \
@@ -137,8 +101,6 @@ python3 detect_picamera.py \
   --labels /tmp/coco_labels.txt
 ```
 
-You should see significantly faster inference speeds.
+您应该会看到明显更快的推理速度。
 
-For more information about creating and running TensorFlow Lite models with
-Coral devices, read [TensorFlow models on the Edge TPU](
-https://coral.withgoogle.com/docs/edgetpu/models-intro/).
+有关使用coral设备创建和运行TensorFlow Lite模型的更多信息，请阅读[TensorFlow models on the Edge TPU](https://coral.withgoogle.com/docs/edgetpu/models-intro/)。
