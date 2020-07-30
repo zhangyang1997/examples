@@ -1,4 +1,4 @@
-# TensorFlow Lite Python对象检测示例与Pi相机
+#### TensorFlow Lite Python对象检测示例与Pi相机
 
 这个例子使用[TensorFlow Lite](https://tensorflow.org/lite)和Python在一个Raspberry Pi上执行实时对象检测，使用的图像流从Pi相机。它在摄像机预览中为每个检测到的对象绘制一个边界框(当对象的分数超过给定的阈值)。
 
@@ -6,7 +6,7 @@
 
 在本页的末尾，有一些额外的步骤来使用Coral USB加速器加速示例，它将推理速度提高了约10倍。
 
-## 设置硬件
+##### 1.设置硬件
 
 在你开始之前，你需要[设置Pi](https://projects.raspberrypi.org/en/projects/raspberry-pi-settup)
 
@@ -15,7 +15,7 @@
 要想看到相机拍摄的结果，你需要一个连接树莓派的监视器。如果您正在使用SSH访问Pi shell(您不需要使用连接到Pi的键盘)，这是可以的——您只需要一个监视器连接到Pi就可以看到相机流。
 
 
-## 安装TensorFlow Lite运行时
+##### 2.安装TensorFlow Lite运行时
 
 在这个项目中，你所需要的TensorFlow Lite API就是`Interpreter`类。
 所以我们没有安装大的`tensorflow`包，而是使用小得多的`tflite_runtime` 包。
@@ -23,7 +23,7 @@
 要在Raspberry Pi上安装该文件，请按照[Python quickstart](https://www.tensorflow.org/lite/guide/python)中的说明操作。执行`pip install`命令后返回这里。
 
 
-## 下载示例文件
+##### 3.下载示例文件
 
 首先，复制这个Git repo到你的树莓派，就像这样:
 
@@ -41,20 +41,26 @@ bash download.sh /tmp
 ```
 
 
-## 运行示例
+##### 4.运行示例
 
-```
-python3 detect_picamera.py \
-  --model /tmp/detect.tflite \
-  --labels /tmp/coco_labels.txt
+```bash
+python3 detect_picamera.py --model detect.tflite --labels coco_labels.txt
 ```
 
 你应该会看到摄像头的信号出现在显示器上，连接到你的树莓派。在相机前放置一些物体，比如一个咖啡杯或键盘，你会看到在模型识别的物体周围画上方框，包括标签和每个物体的分数。它还在屏幕左上角以毫秒为单位打印执行每个推断所花费的时间。
 
 有关使用TensorFlow Lite执行推断的更多信息，请阅读[TensorFlow Lite推断](https://www.tensorflow.org/lite/guide/inference)。
 
+##### 5.文件说明
 
-## 加速推理时间(可选)
++ Python包：numpy、picamera、Pillow、tflite_runtime
++ 程序文件：detect_picamera.py、annotation.py
++ 标签文件：coco_labels.txt
++ 模型文件：detect.tflite
++ 模型版本：coco_ssd_mobilenet_v1_1.0_quant_2018_06_29
+
+
+##### 6.加速推理时间(可选)
 
 如果你想显著加快推理的时间,您可以附加一个毫升加速器等[coral USB 加速器](https://coral.withgoogle.com/products/accelerator)——USB附件,添加[边缘TPU ML加速器](https://coral.withgoogle.com/docs/edgetpu/faq/)到任何基于linux的系统。
 
